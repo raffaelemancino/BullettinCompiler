@@ -5,7 +5,6 @@
  */
 package bollettini;
 
-import java.awt.Component;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import javax.swing.ImageIcon;
@@ -34,23 +33,19 @@ public class BullettinCompiler {
         mainwindow.setVisible(true);
         
         this.loadBase();
-        /*String path = getClass().getResource("bollettino.jpg").toString();
-        temp = Highgui.imread(path, Highgui.CV_LOAD_IMAGE_GRAYSCALE);*/
-        //Size size = new Size(1887,575);
-        //bullettin = new Mat();
-        //Imgproc.resize(temp, bullettin, size);
     }
     
     public void loadBase()
     {
-        bullettin = Highgui.imread("E:\\Programmazione\\Bollettini\\src\\assets\\bullettin.jpg", Highgui.CV_LOAD_IMAGE_GRAYSCALE);
+        String path = "./bullettin.jpg";
+        bullettin = Highgui.imread(path, Highgui.CV_LOAD_IMAGE_GRAYSCALE);
     }
             
     public void show()
     {
         //resize to show
-        Mat resize=new Mat();
-        Size size=new Size(1100, 335);
+        Size size = new Size(1100, 335);
+        Mat resize = new Mat();
         Imgproc.resize(bullettin, resize, size);
         
         //create image
@@ -106,10 +101,6 @@ public class BullettinCompiler {
     {
         E = E.replace('.', ',');
         String part[] = E.split(",");
-        /*for(int i=0;i<part.length;i++)
-        {
-            System.out.println(part[i]);
-        }*/
         
         Point E1 = new Point(315, 125);
         Point E2 = new Point(790, 125);
@@ -175,7 +166,6 @@ public class BullettinCompiler {
     
     private void writeELetter(String ELetter)
     {
-        
         Point L1 = new Point(80, 160);
         Point L2 = new Point(555, 160);
         Point L3 = new Point(1240, 112);
@@ -183,11 +173,133 @@ public class BullettinCompiler {
         Core.putText(bullettin, ELetter, L2, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
         Core.putText(bullettin, ELetter, L3, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
     }
-     
+    
+    private void writeReciever(String reciever)
+    {
+        //massimo 24 caratteri
+        String temp = "";
+        int offset = 26;
+        if (reciever.length()>offset)
+        {
+            temp = reciever.substring(0, offset);
+        }else{
+            temp = reciever;
+        }
+        Core.putText(bullettin, temp, new Point(93, 188), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, temp, new Point(567, 188), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        
+        Point R = new Point(1000, 159);
+        for (int i=0; i<68 && i<reciever.length(); i++)
+        {
+            Core.putText(bullettin, String.valueOf(reciever.charAt(i)), R, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+            R.x+=25.3;
+            if (i==33)
+                R.set(new double[]{1000, 190});
+        }
+    }
+    
+    private void writeCausal(String purpose)
+    {
+        Core.putText(bullettin, purpose, new Point(17, 237), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, purpose, new Point(490, 237), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, purpose, new Point(996, 237), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+    }
+    
+    private void writePerformer(String performer)
+    {
+        String temp = "";
+        int offset = 24;
+        if (performer.length()>offset)
+        {
+            temp = performer.substring(0, offset);
+        }else{
+            temp = performer;
+        }
+        Core.putText(bullettin, temp, new Point(95, 500), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, temp, new Point(569, 500), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        
+        Point A = new Point(1278, 317);
+        for (int i=0; i<46 && i<performer.length(); i++)
+        {
+            Core.putText(bullettin, String.valueOf(performer.charAt(i)), A, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+            A.x+=25;
+            if (i==22)
+                A.set(new double[]{1278, 348});
+        }
+    }
+    
+    private void writeAddress(String address)
+    {
+        String temp = "";
+        int offset = 24;
+        if (address.length()>offset)
+        {
+            temp = address.substring(0, offset);
+        }else{
+            temp = address;
+        }
+        Core.putText(bullettin, temp, new Point(95, 529), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, temp, new Point(569, 529), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        
+        Point A = new Point(1278, 395);
+        for (int i=0; i<46 && i<address.length(); i++)
+        {
+            Core.putText(bullettin, String.valueOf(address.charAt(i)), A, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+            A.x+=25;
+        }
+    }
+    
+    private void writeCap(String cap)
+    {
+        String temp = "";
+        int offset = 5;
+        if (cap.length()>offset)
+        {
+            temp = cap.substring(0, offset);
+        }else{
+            temp = cap;
+        }
+        Core.putText(bullettin, temp, new Point(43, 557), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, temp, new Point(516, 557), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        
+        Point A = new Point(1278, 442);
+        for (int i=0; i<5 && i<cap.length(); i++)
+        {
+            Core.putText(bullettin, String.valueOf(cap.charAt(i)), A, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+            A.x+=25;
+        }
+    }
+    
+    private void writeLocality(String locality)
+    {
+        String temp = "";
+        int offset = 17;
+        if (locality.length()>offset)
+        {
+            temp = locality.substring(0, offset);
+        }else{
+            temp = locality;
+        }
+        Core.putText(bullettin, temp, new Point(205, 557), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        Core.putText(bullettin, temp, new Point(678, 557), Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+        
+        Point A = new Point(1430, 442);
+        for (int i=0; i<17 && i<locality.length(); i++)
+        {
+            Core.putText(bullettin, String.valueOf(locality.charAt(i)), A, Core.FONT_HERSHEY_COMPLEX, 0.8, new Scalar(0, 0, 0));
+            A.x+=25;
+        }
+    }
+    
     public void compile(String data[])
     {
         this.writeCC(data[0]);
         this.writeE(data[1], data[2]);
-        
+        this.writeReciever(data[3]);
+        this.writeCausal(data[4]);
+        this.writePerformer(data[5]);
+        this.writeAddress(data[6]);
+        this.writeCap(data[7]);
+        this.writeLocality(data[8]);
     }
 }

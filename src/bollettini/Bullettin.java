@@ -24,5 +24,4 @@ public class Bullettin {
         compiler = new BullettinCompiler();
                 
     }
-    
 }
